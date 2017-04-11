@@ -1,7 +1,13 @@
 $("#error").hide();
 $("#hud").show();
 
-navigator.geolocation.getCurrentPosition(gotLocation);
+if(navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition(gotLocation);
+} else {
+	displayError("Your browser doesn't support geolocation.");
+}
+
+navigator.geolocation.getCurrentPosition(gotLocation, gotError);
 
 function gotLocation(currentPosition) {
   $("#hud").hide();
@@ -18,6 +24,27 @@ function gotLocation(currentPosition) {
   });
 }
 
+function gotError(error) {
+	var message;
+
+	switch(error.code) {
+		case error.PERMISSION_DENIED:
+		message = "You need to give permission to use your location.";
+		break;
+		case error.PERMISSION_UNAVAILABLE:
+		message = "There was an error getting your location from your device. Please refresh the page.";
+		break;
+		case error.TIMEOUT:
+		message = "It took too long getting your position.";
+		break;
+		default: 
+		message = "An unknown error has occured. Please refresh the page";
+		break;
+	}
+	displayError(message);
+}
+
 function displayError(message) {
+	$('#hud').hide();	
   $("#error").text(message).slideDown("slow");
 }
