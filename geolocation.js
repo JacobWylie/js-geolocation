@@ -12,13 +12,13 @@ navigator.geolocation.getCurrentPosition(gotLocation, gotError);
 function gotLocation(currentPosition) {
   $("#hud").hide();
 
-  var $restaurants = $("span");
+  var $wonders = $("span");
   
-  $restaurants.each(function(){
-    var restaurantLatitude = $(this).data("lat");
-    var restaurantLongitude = $(this).data("lon");
+  $wonders.each(function(){
+    var wondersLatitude = $(this).data("lat");
+    var wondersLongitude = $(this).data("lon");
     
-    var distanceInMiles = calculateDistance(currentPosition.coords.latitude, currentPosition.coords.longitude, restaurantLatitude, restaurantLongitude);
+    var distanceInMiles = calculateDistance(currentPosition.coords.latitude, currentPosition.coords.longitude, wondersLatitude, wondersLongitude);
     
     $(this).text(distanceInMiles + " miles");
   });
